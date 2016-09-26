@@ -1,9 +1,15 @@
+services: docker
+
 env:
-  - distro: centos7
+  - distro: centos:7
     init: /usr/lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
-  - distro: debian8
+  - distro: debian:jessie
     init: /lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
+
+before_install:
+  - docker pull ${distro}
+
 script:
-  - ls
+  - docker run -d ${distro} ls
